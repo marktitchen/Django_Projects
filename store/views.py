@@ -19,3 +19,7 @@ def productPage(request, category_slug, product_slug):
     except Exception as e:
         raise e
     return render(request, 'product.html', {'product': product})
+
+
+def cart(request):
+    return render(request, 'cart.html')
