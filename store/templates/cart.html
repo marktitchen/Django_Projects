@@ -5,6 +5,22 @@
 {% endblock %}
 
 {% block content %}
+    {% if not cart_items %}
+        <div class="text-center">
+            <br>
+            <h1 class="text-center product_title">
+                Your shopping cart is empty
+            </h1>
+            <br>
+            <p class="text center">
+                Please click <a href="{% url 'home' %}">here</a> to continue shopping
+            </p>
+        </div>
+    {% else %}
+
+
+
+
     <div class="text-center">
         <br>
         <div class="text-center product_title">
@@ -21,30 +37,37 @@
                         </th>
                     </tr>
                 </thead>
-                {% for i in '123' %}
+                {% for cart_item in cart_items %}
                     <tr>
                         <td>
-                            <a href="">
-                               <img src="{% static 'img/product-image.png' %}" width="100" height="100" alt="">
+                            <a href="cart_id.product.get_url">
+                               <img src="{{cart_item.product.image.url}}" width="100" height="100" alt="">
                             </a>
                         </td>
                         <td class="text-left">
-                            Product 1
+                            {{cart_item.product.name}}
                             <br>
-                            SKU:5
+                            SKU:{{cart_item.product.id}}
                             <br>
-                            Unit Price: £100
+                            Unit Price: {{cart_item.product.price}}
                             <br>
-                            Qty: 2 x £100
+                            Qty: {{cart_item.quantity}} x {{cart_item.product.price}}
                         </td>
                         <td>
-                            £200
+                            {{cart_item.sub_total}}
                         </td>
-                        <td>
-                            &nbsp;<a href=""><i class="fas fa-plus-square cart_icon"></i></a>
-                            &nbsp;<a href=""><i class="fas fa-minus-square cart_icon"></i></a>
-                            &nbsp;<a href=""><i class="fas fa-trash-alt cart_icon"></i></a>
-                        </td>
+                        {% if cart_item.quantity < cart_item.product.stock %}
+                            <td>
+                            &nbsp;  <a href="{% url 'add_cart' cart_item.product.id %}"><i class="fas fa-plus-square cart_icon"></i></a>
+                            &nbsp;  <a href=""><i class="fas fa-minus-square cart_icon"></i></a>
+                            &nbsp;  <a href=""><i class="fas fa-trash-alt cart_icon"></i></a>
+                            </td>
+                        {% else %}
+                             <td>
+                            &nbsp;  <a href=""><i class="fas fa-minus-square cart_icon"></i></a>
+                            &nbsp;  <a href=""><i class="fas fa-trash-alt cart_icon"></i></a>
+                            </td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
 
@@ -67,17 +90,17 @@
                     </tr>
                     <tr>
                         <td class="text-left">
-                            Your total is: <strong>£200</strong>
+                            Your total is: <strong>£{{total}}</strong>
                         </td>
                     </tr>
                 </tbody>
             </table>
             <div class="mx-auto">
-                <a href="" style="text-decoration: none;">
+                <a href="{% url 'home' %}" style="text-decoration: none;">
                     <button type="button" class="btn btn-lg btn-block bg-dark text-white">Continue Shopping</button>
                 </a>
             </div>
         </div>
     </div>
-
+    {% endif %}
 {% endblock %}
