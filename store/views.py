@@ -131,7 +131,7 @@ def cart_detail(request, total=0, counter=0, cart_items=None):
 
                     # print a message when the order is created
                     print('the order has been created')
-                return redirect('home')
+                return redirect('process_sale', order_details.id)
             except ObjectDoesNotExist:
                 pass
 
@@ -160,3 +160,8 @@ def cart_remove(request, product_id):
     cart_item = CartItem.objects.get(product=product, cart=cart)
     cart_item.delete()
     return redirect('cart_detail')
+
+def process_sale_page(request, order_id):
+    if order_id:
+        customer_order = get_object_or_404(Order, id=order_id)
+    return render(request, 'process-sale.html', {'customer_order': customer_order})
