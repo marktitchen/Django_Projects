@@ -4,6 +4,8 @@ from .models import Category, Product, Cart, CartItem, OrderItem, Order
 from django.core.exceptions import ObjectDoesNotExist
 import stripe
 from django.conf import settings
+from django.contrib.auth.models import Group, User
+from .forms import SignUpForm
 
 
 def home(request, category_slug=None):
@@ -161,7 +163,22 @@ def cart_remove(request, product_id):
     cart_item.delete()
     return redirect('cart_detail')
 
+
 def process_sale_page(request, order_id):
     if order_id:
         customer_order = get_object_or_404(Order, id=order_id)
     return render(request, 'process-sale.html', {'customer_order': customer_order})
+
+
+def signupView(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            signup_user = User.objects.get(username=username)
+            customer_group = Group.objects.get(name='Customer')
+            customer_group.user_set.add(signup_user)
+    else:
+        form = SignUpForm()
+    return render(request, 'sign-up.html', {'form': form})
