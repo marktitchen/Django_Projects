@@ -5,7 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 import stripe
 from django.conf import settings
 from django.contrib.auth.models import Group, User
-from .forms import SignUpForm
+from .forms import SignUpForm, ContactForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
@@ -216,6 +216,7 @@ def orderHistory(request):
         order_details = Order.objects.filter(emailAddress=email)
     return render(request, 'list-orders.html', {'order_details': order_details})
 
+
 @login_required(redirect_field_name='next', login_url='signin')
 def viewOrder(request, order_id):
     if request.user.is_authenticated:
@@ -223,3 +224,24 @@ def viewOrder(request, order_id):
         order = Order.objects.get(id=order_id, emailAddress=email)
         order_items = OrderItem.objects.filter(order=order)
     return render(request, 'order-detail.html', {'order': order, 'order_items': order_items})
+
+
+def search(request):
+    products = Product.objects.filter(name__contains=request.GET['title'])
+    return render(request, 'home.html', {'products': products})
+
+
+def contact(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            submit = form.cleaned_data.get('subject')
+            message = form.cleaned_data.get('message')
+            customer_email = form.cleaned_data.get(' customer_email')
+            name = form.cleaned_data.get('name')
+
+            message_format = "{0} has sent you a new message:\n\n{1}".format(name, message)
+            return render(request, 'contact-success.html')
+    else:
+        form = ContactForm
+    return render(request, 'contact.html', {'form': form})
