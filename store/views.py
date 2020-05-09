@@ -8,6 +8,7 @@ from django.contrib.auth.models import Group, User
 from .forms import SignUpForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 
 
 def home(request, category_slug=None):
@@ -185,6 +186,7 @@ def signupView(request):
         form = SignUpForm()
     return render(request, 'sign-up.html', {'form': form})
 
+
 def signinView(request):
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
@@ -193,7 +195,7 @@ def signinView(request):
             password = request.POST['password']
             user = authenticate(username=username, password=password)
             if user is not None:
-                login(request,user)
+                login(request, user)
                 return redirect('home')
             else:
                 return redirect('signup')
@@ -201,6 +203,23 @@ def signinView(request):
         form = AuthenticationForm()
     return render(request, 'sign-in.html', {'form': form})
 
+
 def signoutView(request):
     logout(request)
     return redirect('signin')
+
+
+@login_required(redirect_field_name='next', login_url='signin')
+def orderHistory(request):
+    if request.user.is_authenticated:
+        email = str(request.user.email)
+        order_details = Order.objects.filter(emailAddress=email)
+    return render(request, 'list-orders.html', {'order_details': order_details})
+
+@login_required(redirect_field_name='next', login_url='signin')
+def viewOrder(request, order_id):
+    if request.user.is_authenticated:
+        email = str(request.user.email)
+        order = Order.objects.get(id=order_id, emailAddress=email)
+        order_items = OrderItem.objects.filter(order=order)
+    return render(request, 'order-detail.html', {'order': order, 'order_items': order_items})
