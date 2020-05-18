@@ -111,3 +111,22 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return self.product
+
+
+class Supplier(models.Model):
+    name = models.CharField(max_length=250, unique=True)
+    supplierAddress1 = models.CharField(max_length=250, blank=True)
+    supplierCity = models.CharField(max_length=250, blank=True)
+    supplierPostcode = models.CharField(max_length=250, blank=True)
+    supplierCountry = models.CharField(max_length=250, blank=True)
+    supplierEmail = models.CharField(max_length=250, blank=True, verbose_name='Email Address')
+    supplierContact = models.CharField(max_length=11, blank=True)
+    supplierWebsite = models.CharField(max_length=65, blank=True)
+
+    class Meta:
+        ordering = ('name',)
+        verbose_name = 'supplier'
+        verbose_name_plural = 'suppliers'
+
+    def __str__(self):
+        return self.name

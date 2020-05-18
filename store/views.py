@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
-from .models import Category, Product, Cart, CartItem, OrderItem, Order
+from .models import Category, Product, Cart, CartItem, OrderItem, Order, Supplier
 from django.core.exceptions import ObjectDoesNotExist
 import stripe
 from django.conf import settings
