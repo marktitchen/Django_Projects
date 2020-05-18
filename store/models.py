@@ -32,6 +32,7 @@ class Product(models.Model):
     available = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    #supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ('name',)
@@ -124,7 +125,7 @@ class Supplier(models.Model):
     supplierWebsite = models.CharField(max_length=65, blank=True)
 
     class Meta:
-        ordering = ('name',)
+        db_table = 'Supplier'
         verbose_name = 'supplier'
         verbose_name_plural = 'suppliers'
 
