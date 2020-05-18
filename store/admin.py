@@ -1,6 +1,11 @@
 from django.contrib import admin
-from .models import Category, Product, Order, OrderItem
+from .models import Category, Product, Order, OrderItem, Supplier
 
+class SupplierAdmin(admin.ModelAdmin):
+    list_display = ['name', 'supplierAddress1', 'supplierCity', 'supplierPostcode', 'supplierCountry', 'supplierEmail', 'supplierContact', 'supplierWebsite']
+    list_editable = ['supplierEmail', 'supplierContact']
+
+admin.site.register(Supplier)
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug']
