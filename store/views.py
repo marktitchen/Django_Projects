@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
-from .models import Category, Product, Cart, CartItem, OrderItem, Order, Supplier
+from .models import Category, Product, Cart, CartItem, OrderItem, Order, Supplier, Review
 from django.core.exceptions import ObjectDoesNotExist
 import stripe
 from django.conf import settings
@@ -27,7 +27,13 @@ def productPage(request, category_slug, product_slug):
         product = Product.objects.get(category__slug=category_slug, slug=product_slug)
     except Exception as e:
         raise e
-    return render(request, 'product.html', {'product': product})
+
+    if request.method == 'POST' and request.user.is_authenticated and request.POST['content'].strip() != '':
+        Review.objects.create(product=product, user=request.user, content=request.POST['content'])
+
+    reviews = Review.objects.filter(product=product)
+
+    return render(request, 'product.html', {'product': product, 'reviews': reviews})
 
 
 def _cart_id(request):
