@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Product, Order, OrderItem, Supplier
+from .models import Category, Product, Order, OrderItem, Supplier, Review
 
 class SupplierAdmin(admin.ModelAdmin):
     list_display = ['name', 'supplierAddress1', 'supplierCity', 'supplierPostcode', 'supplierCountry', 'supplierEmail', 'supplierContact', 'supplierWebsite']
@@ -61,3 +61,6 @@ class OrderAdmin(admin.ModelAdmin):
 
     def has_add_permission(self, request):
         return False
+
+
+admin.site.register(Review)
