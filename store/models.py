@@ -35,6 +35,8 @@ class Product(models.Model):
     updated = models.DateTimeField(auto_now=True)
     #supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
 
+
+
     class Meta:
         ordering = ('name',)
         verbose_name = 'product'
