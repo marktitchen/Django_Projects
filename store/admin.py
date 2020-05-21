@@ -1,11 +1,15 @@
 from django.contrib import admin
 from .models import Category, Product, Order, OrderItem, Supplier, Review
 
+
 class SupplierAdmin(admin.ModelAdmin):
-    list_display = ['name', 'supplierAddress1', 'supplierCity', 'supplierPostcode', 'supplierCountry', 'supplierEmail', 'supplierContact', 'supplierWebsite']
+    list_display = ['name', 'supplierAddress1', 'supplierCity', 'supplierPostcode', 'supplierCountry', 'supplierEmail',
+                    'supplierContact', 'supplierWebsite']
     list_editable = ['supplierEmail', 'supplierContact']
 
+
 admin.site.register(Supplier)
+
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug']
@@ -35,7 +39,7 @@ class OrderItemAdmin(admin.TabularInline):
     readonly_fields = ['product', 'quantity', 'price']
     can_delete = False
     max_num = 0
-    
+
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
@@ -47,9 +51,12 @@ class OrderAdmin(admin.ModelAdmin):
                        'shippingCity', 'shippingPostcode', 'shippingCountry']
 
     fieldsets = [
-    ('ORDER INFORMATION', {'fields': ['id', 'token', 'total', 'created']}),
-    ('BILLING INFORMATION', {'fields': ['billingName', 'billingAddress1', 'billingCity', 'billingPostcode', 'billingCountry', 'emailAddress']}),
-    ('SHIPPING INFORMATION', {'fields': ['shippingName', 'shippingAddress1', 'shippingCity', 'shippingPostcode', 'shippingCountry']}),
+        ('ORDER INFORMATION', {'fields': ['id', 'token', 'total', 'created']}),
+        ('BILLING INFORMATION', {
+            'fields': ['billingName', 'billingAddress1', 'billingCity', 'billingPostcode', 'billingCountry',
+                       'emailAddress']}),
+        ('SHIPPING INFORMATION',
+         {'fields': ['shippingName', 'shippingAddress1', 'shippingCity', 'shippingPostcode', 'shippingCountry']}),
     ]
 
     inlines = [

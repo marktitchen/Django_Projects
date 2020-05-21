@@ -75,7 +75,7 @@
         </div>
         <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
             <table class="table">
-                <thead>
+                <thead class="cart_thead">
                     <tr>
                         <th>
                             Check out
@@ -85,7 +85,7 @@
                 <tbody>
                     <tr>
                         <td>
-                            Please review your cart items before you make payement.
+                            Please review your cart items before you make payment.
                         </td>
                     </tr>
                     <tr>
@@ -99,22 +99,18 @@
                 <form class="" action="" method="post">
                     {% csrf_token %}
                     <script src="https://checkout.stripe.com/checkout.js"
-                    class="stripe-button"
-                    data-key="{{ data_key }}"
-                    data-amount="{{ stripe_total }}"
-                    data-name="Marks Music Store"
-                    data-description="{{ description }}"
-                    data-locale="auto"
-                    data-currency="GBP"
-                    data-shipping-address="true"
-                    data-billing-address="true"
-                    data-zip-code="true">
+                        class="stripe-button"
+                        data-key="{{ data_key }}"
+                        data-amount="{{ stripe_total }}"
+                        data-name="Marks Music Store"
+                        data-description="{{ description }}"
+                        data-locale="auto"
+                        data-currency="GBP"
+                        data-shipping-address="true"
+                        data-billing-address="true"
+                        data-zip-code="true">
+                    </script>
                 </form>
-
-
-
-
-
                 <a href="{% url 'home' %}" style="text-decoration: none;">
                     <button type="button" class="btn btn-lg btn-block bg-dark text-white">Continue Shopping</button>
                 </a>
