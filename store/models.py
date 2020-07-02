@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
 
+
 # Model category
 class Category(models.Model):
     name = models.CharField(max_length=250, unique=True)
@@ -17,9 +18,9 @@ class Category(models.Model):
     def get_url(self):
         return reverse('products_by_category', args=[self.slug])
 
-
     def __str__(self):
         return self.name
+
 
 # Model product
 class Product(models.Model):
@@ -33,21 +34,18 @@ class Product(models.Model):
     available = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    #supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
-
-
 
     class Meta:
         ordering = ('name',)
         verbose_name = 'product'
         verbose_name_plural = 'products'
 
-
     def get_url(self):
         return reverse('product_detail', args=[self.category.slug, self.slug])
 
     def __str__(self):
         return self.name
+
 
 # Model cart
 class Cart(models.Model):
@@ -60,6 +58,7 @@ class Cart(models.Model):
 
     def __str__(self):
         return self.cart_id
+
 
 class CartItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -75,6 +74,7 @@ class CartItem(models.Model):
 
     def __str__(self):
         return self.product
+
 
 # Model order
 class Order(models.Model):
@@ -100,6 +100,7 @@ class Order(models.Model):
     def __str__(self):
         return str(self.id)
 
+
 class OrderItem(models.Model):
     product = models.CharField(max_length=250)
     quantity = models.IntegerField()
@@ -117,24 +118,6 @@ class OrderItem(models.Model):
         return self.product
 
 
-class Supplier(models.Model):
-    name = models.CharField(max_length=250, unique=True)
-    supplierAddress1 = models.CharField(max_length=250, blank=True)
-    supplierCity = models.CharField(max_length=250, blank=True)
-    supplierPostcode = models.CharField(max_length=250, blank=True)
-    supplierCountry = models.CharField(max_length=250, blank=True)
-    supplierEmail = models.CharField(max_length=250, blank=True, verbose_name='Email Address')
-    supplierContact = models.CharField(max_length=11, blank=True)
-    supplierWebsite = models.CharField(max_length=65, blank=True)
-
-    class Meta:
-        db_table = 'Supplier'
-        verbose_name = 'supplier'
-        verbose_name_plural = 'suppliers'
-
-    def __str__(self):
-        return self.name
-
 class Review(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -142,3 +125,20 @@ class Review(models.Model):
 
     def __str__(self):
         return self.content
+
+
+class Supplier(models.Model):
+    name = models.CharField(max_length=55)
+    website = models.CharField(max_length=55)
+    address = models.CharField(max_length=250, blank=True)
+    city = models.CharField(max_length=250, blank=True)
+    postcode = models.CharField(max_length=250, blank=True)
+    country = models.CharField(max_length=250, blank=True)
+    contact = models.CharField(max_length=250, blank=True)
+    emailAddress = models.CharField(max_length=250, blank=True)
+
+    class Meta:
+        db_table = 'Supplier'
+
+    def __str__(self):
+        return self.name
