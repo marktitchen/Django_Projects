@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
-from .models import Category, Product, Cart, CartItem, OrderItem, Order, Supplier, Review
+from .models import Category, Product, Cart, CartItem, OrderItem, Order, Review
 from django.core.exceptions import ObjectDoesNotExist
 import stripe
 from django.conf import settings
@@ -251,6 +251,7 @@ def contact(request):
     else:
         form = ContactForm
     return render(request, 'contact.html', {'form': form})
+
 
 def about(request):
     return render(request, 'about.html')
