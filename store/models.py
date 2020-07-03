@@ -142,3 +142,16 @@ class Supplier(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Offer(models.Model):
+    name = models.CharField(max_length=20)
+    description = models.CharField(max_length=250)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    discount = models.DecimalField(max_digits=10, decimal_places=2)
+
+    class Meta:
+        db_table = 'Offer'
+
+    def __str__(self):
+        return self.name

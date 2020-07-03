@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Product, Order, OrderItem, Review, Supplier
+from .models import Category, Product, Order, OrderItem, Supplier, Review, Offer
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -70,3 +70,11 @@ class SupplierAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Supplier, SupplierAdmin)
+
+
+class OfferAdmin(admin.ModelAdmin):
+    list_display = ['name', 'description', 'product', 'discount']
+    list_editable = ['product', 'discount']
+
+
+admin.site.register(Offer, OfferAdmin)
