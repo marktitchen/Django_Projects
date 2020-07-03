@@ -2,15 +2,6 @@ from django.contrib import admin
 from .models import Category, Product, Order, OrderItem, Supplier, Review
 
 
-class SupplierAdmin(admin.ModelAdmin):
-    list_display = ['name', 'supplierAddress1', 'supplierCity', 'supplierPostcode', 'supplierCountry', 'supplierEmail',
-                    'supplierContact', 'supplierWebsite']
-    list_editable = ['supplierEmail', 'supplierContact']
-
-
-admin.site.register(Supplier)
-
-
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug']
     prepopulated_fields = {'slug': ('name',)}
@@ -71,3 +62,11 @@ class OrderAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Review)
+
+
+class SupplierAdmin(admin.ModelAdmin):
+    list_display = ['name', 'website', 'contact', 'emailAddress']
+    list_editable = ['contact', 'emailAddress']
+
+
+admin.site.register(Supplier, SupplierAdmin)
