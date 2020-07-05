@@ -66,6 +66,7 @@ class CartItem(models.Model):
     quantity = models.IntegerField()
     active = models.BooleanField(default=True)
 
+
     class Meta:
         db_table = 'CartIem'
 
